@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org/"
+	th:replace="normal/base::Layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>User Dashboard</title>
+</head>
+<body>
+	<section>
+		<div class="card mr-3 ml-3">
+			<div class="card-body">
+				<h1 class="text-center">Your Contacts</h1>
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">#ID</th>
+							<th scope="col">Name</th>
+							<th scope="col">Email</th>
+							<th scope="col">Phone</th>
+							<th scope="col">Action</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="c:${contacts}">
+							<th scope="row" th:text="${'SCM2020'+c.cid}">1</th>
+							<td><img class="pro_pic" th:src="@{'/img/'+${c.image}}"
+								alt="profile_pic"> <span th:text="${c.name}"></span></td>
+							<td><a href="#" th:href="@{'/user/'+${c.cid}+'/contact'}"><span
+									th:text="${c.email}"></span></a></td>
+							<td th:text="${c.phone}"></td>
+							<!-- <td><a th:href="@{'/user/delete/'+${c.cid}}" class="btn btn-danger btn-sm">Delete</a></td> -->
+							<td><a href="#" th:onclick="|deletContact(${c.cid})|"
+								class="btn btn-danger btn-sm">Delete</a></td>
+							<td>
+								<form method="post"
+									th:action="@{'/user/update_contact/'+${c.cid}}">
+									<button type="submit" class="btn btn-primary btn-sm">Update</button>
+								</form>
+							</td>
+
+						</tr>
+
+					</tbody>
+				</table>
+				
+				
+				<!-- <div class="col-sm-1">
+				<span th:each="i: ${#numbers.sequence(1,totalPages)}">
+				<a th:if="${currentPage !=1}" th:href="@{'/show-contacts/'+{i}}">[[${i}]]</a>
+				<span>
+				
+				</span th:unless="${currentPage !=1}">[[${i}]] &nbsp; &nbsp;</span>
+				
+				
+				
+				</div> -->
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						<li class="page-item"><a class="page-link" href="#">Previous</a></li>
+						<li th:classappend="${currentPage==i-1?'active':''}"
+							th:each="i :  ${#numbers.sequence(1,totalPages)}"
+							class="page-item"><a class="page-link" href="#"><span
+								th:text="${i}"></span></a></li>
+
+						<li class="page-item"><a class="page-link" href="#">Next</a></li>
+
+
+
+
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
